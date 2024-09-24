@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./watterreminder.db"
+}
+
+model User {
+  id           String        @id
+  waterIntakes WaterIntake[]
+  reminders    Reminder[]
+}
+
+model WaterIntake {
+  id     String   @id @default(cuid())
+  userId String
+  amount Int
+  date   DateTime @default(now())
+  user   User     @relation(fields: [userId], references: [id])
+}
+
+model Reminder {
+  id            String   @id @default(cuid())
+  userId        String
+  containerSize Int
+  reminderTime  String
+  date          DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id])
+}
