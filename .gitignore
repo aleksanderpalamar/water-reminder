@@ -28,8 +28,8 @@ yarn-error.log*
 # local env files
 .env*.local
 
-# database
-/prisma/watterreminder.db
+# prisma only db files
+/prisma/waterreminder.db
 
 # vercel
 .vercel
