@@ -44,27 +44,35 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      
       {history.length === 0 ? (
         <p>No history available.</p>
       ) : (
         <ul className="space-y-4">
-          {history.map((entry) => (
-            <li key={entry.date} className="border-b pb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold">{new Date(entry.date).toLocaleDateString()}</span>
-                <span className="text-blue-600">{entry.amount} ml / {DAILY_GOAL} ml</span>
-              </div>
-              <div className="relative pt-1">
-                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-                  <div
-                    style={{ width: `${Math.min((entry.amount / DAILY_GOAL) * 100, 100)}%` }}
-                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
-                  ></div>
+          {history.map((entry) => {
+            const entryDate = new Date(entry.date)
+            const formattedDate = entryDate.toLocaleDateString('pt-BR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              timeZone: 'UTC'
+            })
+            return (
+              <li key={entry.date} className="border-b pb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-semibold">{formattedDate}</span>
+                  <span className="text-blue-600">{entry.amount} ml / {DAILY_GOAL} ml</span>
                 </div>
-              </div>
-            </li>
-          ))}
+                <div className="relative pt-1">
+                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                    <div
+                      style={{ width: `${Math.min((entry.amount / DAILY_GOAL) * 100, 100)}%` }}
+                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+                    ></div>
+                  </div>
+                </div>
+              </li>
+            )
+          })}
         </ul>
       )}
     </div>
