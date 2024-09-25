@@ -44,25 +44,25 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   const percentage = Math.min((waterIntake / DAILY_GOAL) * 100, 100)
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 className="text-2xl font-semibold text-blue-800 mb-4">Today&apos;s Water Intake</h2>
+    <div className="bg-white p-6 rounded-lg shadow-md mb-8 overflow-hidden">
+      <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Today&apos;s Water Intake</h2>
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">
           <div>
-            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#5DCCFC] bg-[#E2E8F0]">
               {waterIntake} ml / {DAILY_GOAL} ml
             </span>
           </div>
           <div className="text-right">
-            <span className="text-xs font-semibold inline-block text-blue-600">
+            <span className="text-xs font-semibold inline-block text-sky-500">
               {percentage.toFixed(1)}%
             </span>
           </div>
         </div>
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#E2E8F0]">
           <div
             style={{ width: `${percentage}%` }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#5DCCFC]"
           ></div>
         </div>
       </div>

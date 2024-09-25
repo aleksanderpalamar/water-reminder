@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BellIcon } from 'lucide-react'
+import Image from 'next/image'
 
 interface Reminder {
   id: string
@@ -39,7 +39,7 @@ export default function Notifications({ userId }: { userId: string }) {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-blue-800 mb-4">
+      <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">
         Reminders
       </h2>
       {reminders.length === 0 ? (
@@ -48,8 +48,16 @@ export default function Notifications({ userId }: { userId: string }) {
         <ul className="space-y-4">
           {reminders.map((reminder) => (
             <li key={reminder.id} className="flex items-center space-x-2">
-              <BellIcon className="text-blue-500" />
-              <span>
+              <Image 
+                src="/assets/Bottle-of-water.svg"
+                alt="Bottle of water"
+                width={2000}
+                height={2000}
+                className="h-6 w-6 overflow-hidden object-cover"
+                priority
+                quality={100}
+              />
+              <span className="text-gray-700 dark:text-gray-300 antialiased text-sm">
                 {reminder.reminderTime} - Drink {reminder.containerSize}ml of water
               </span>
             </li>

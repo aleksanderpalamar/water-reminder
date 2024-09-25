@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="pt-br">
-        <body className={`${poppinsFont.className} antialiased`}>          
+        <body className={`${poppinsFont.className} antialiased bg-[#F5F5F5]`}>          
           {children}
         </body>
       </html>

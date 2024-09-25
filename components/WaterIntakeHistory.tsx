@@ -59,14 +59,14 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
             return (
               <li key={entry.date} className="border-b pb-4">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-semibold">{formattedDate}</span>
-                  <span className="text-blue-600">{entry.amount} ml / {DAILY_GOAL} ml</span>
+                  <span className="font-semibold text-sky-400 antialiased">{formattedDate}</span>
+                  <span className="text-[#5DCCFC]">{entry.amount} ml / {DAILY_GOAL} ml</span>
                 </div>
                 <div className="relative pt-1">
-                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#E2E8F0]">
                     <div
                       style={{ width: `${Math.min((entry.amount / DAILY_GOAL) * 100, 100)}%` }}
-                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#5DCCFC]"
                     ></div>
                   </div>
                 </div>
