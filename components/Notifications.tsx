@@ -37,11 +37,21 @@ export default function Notifications({ userId }: { userId: string }) {
   useEffect(() => {
     const checkReminders = () => {
       const now = new Date()
-      const currentTime = now.toLocaleTimeString('pt-BR', { hour12: false, hour: '2-digit', minute: '2-digit' })
+      const currentHour = now.getHours()
+      const currentMinute = now.getMinutes()
 
       reminders.forEach((reminder) => {
-        if (reminder.reminderTime === currentTime) {
-          showNotification(reminder)
+        const [reminderHour, reminderMinute] = reminder.reminderTime.split(':').map(Number)
+        
+        if (currentHour > reminderHour || (currentHour === reminderHour && currentMinute >= reminderMinute)) {
+          const hoursSinceReminder = (currentHour - reminderHour + 24) % 24
+          const minutesSinceReminder = currentMinute - reminderMinute
+
+          if (hoursSinceReminder === 0 && minutesSinceReminder === 0) {
+            showNotification(reminder)
+          } else if (hoursSinceReminder > 0 && minutesSinceReminder === 0) {
+            showNotification(reminder)
+          }
         }
       })
     }
@@ -57,7 +67,7 @@ export default function Notifications({ userId }: { userId: string }) {
     audio.play().catch((error) => console.error('Error playing audio:', error))
 
     // Speak the message
-    const message = "É importante beber água e manter-se hidratado"
+    const message = "Beba água é importante se hidratar."
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(message)
       speechSynthesis.speak(utterance)
@@ -84,9 +94,9 @@ export default function Notifications({ userId }: { userId: string }) {
         <ul className="space-y-4">
           {reminders.map((reminder) => (
             <li key={reminder.id} className="flex items-center space-x-2">
-              <Image
+              <Image 
                 src="/assets/Bottle-of-water.svg"
-                alt="Logo"
+                alt="Botle of water"
                 width={2000}
                 height={2000}
                 className="h-8 w-8 overflow-hidden object-cover"
