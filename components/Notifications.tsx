@@ -19,14 +19,14 @@ export default function Notifications({ userId }: { userId: string }) {
       try {
         const response = await fetch(`/api/reminders?userId=${userId}`)
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          throw new Error('Failed to fetch reminders')
         }
         const data = await response.json()
         setReminders(data.reminders)
-      } catch (e) {
-        console.error('Error fetching reminders:', e)
+        setLoading(false)
+      } catch (err) {
+        console.error('Error fetching reminders:', err)
         setError('Failed to load reminders. Please try again later.')
-      } finally {
         setLoading(false)
       }
     }
@@ -34,30 +34,66 @@ export default function Notifications({ userId }: { userId: string }) {
     fetchReminders()
   }, [userId])
 
-  if (loading) return <div>Loading reminders...</div>
-  if (error) return <div className="text-red-500">{error}</div>
+  useEffect(() => {
+    const checkReminders = () => {
+      const now = new Date()
+      const currentTime = now.toLocaleTimeString('pt-BR', { hour12: false, hour: '2-digit', minute: '2-digit' })
+
+      reminders.forEach((reminder) => {
+        if (reminder.reminderTime === currentTime) {
+          showNotification(reminder)
+        }
+      })
+    }
+
+    const intervalId = setInterval(checkReminders, 60000) // Check every minute
+
+    return () => clearInterval(intervalId)
+  }, [reminders])
+
+  const showNotification = (reminder: Reminder) => {
+    // Audio alert
+    const audio = new Audio('/audio/notification.mp3')
+    audio.play().catch((error) => console.error('Error playing audio:', error))
+
+    // Speak the message
+    const message = "É importante beber água e manter-se hidratado"
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(message)
+      speechSynthesis.speak(utterance)
+    }
+
+    // Show an alert
+    alert(`Time to drink ${reminder.containerSize}ml of water! ${message}`)
+  }
+
+  if (loading) {
+    return <div>Loading reminders...</div>
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">
-        Reminders
-      </h2>
+      <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Reminders</h2>
       {reminders.length === 0 ? (
         <p>No reminders set. Add a reminder to get started!</p>
       ) : (
         <ul className="space-y-4">
           {reminders.map((reminder) => (
             <li key={reminder.id} className="flex items-center space-x-2">
-              <Image 
+              <Image
                 src="/assets/Bottle-of-water.svg"
-                alt="Bottle of water"
+                alt="Logo"
                 width={2000}
                 height={2000}
-                className="h-6 w-6 overflow-hidden object-cover"
+                className="h-8 w-8 overflow-hidden object-cover"
                 priority
                 quality={100}
               />
-              <span className="text-gray-700 dark:text-gray-300 antialiased text-sm">
+              <span>
                 {reminder.reminderTime} - Drink {reminder.containerSize}ml of water
               </span>
             </li>
