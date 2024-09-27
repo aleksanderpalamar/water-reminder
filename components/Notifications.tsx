@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { WaterReminderDialog } from './WaterReminderDialog'
 import Image from 'next/image'
 
 interface Reminder {
@@ -13,6 +14,8 @@ export default function Notifications({ userId }: { userId: string }) {
   const [reminders, setReminders] = useState<Reminder[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [currentReminder, setCurrentReminder] = useState<Reminder | null>(null)
 
   useEffect(() => {
     const fetchReminders = async () => {
@@ -67,14 +70,15 @@ export default function Notifications({ userId }: { userId: string }) {
     audio.play().catch((error) => console.error('Error playing audio:', error))
 
     // Speak the message
-    const message = "Beba água é importante se hidratar!"
+    const message = "Beba água se hidratar é muito importante para saúde!"
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(message)
       speechSynthesis.speak(utterance)
     }
 
-    // Show an alert
-    alert(`Time to drink ${reminder.containerSize}ml of water! ${message}`)
+    // Show custom dialog
+    setCurrentReminder(reminder)
+    setIsDialogOpen(true)
   }
 
   if (loading) {
@@ -96,7 +100,7 @@ export default function Notifications({ userId }: { userId: string }) {
             <li key={reminder.id} className="flex items-center space-x-2">
               <Image 
                 src="/assets/Bottle-of-water.svg"
-                alt="Botle of water"
+                alt="Bottle of water"
                 width={2000}
                 height={2000}
                 className="h-8 w-8 overflow-hidden object-cover"
@@ -109,6 +113,12 @@ export default function Notifications({ userId }: { userId: string }) {
             </li>
           ))}
         </ul>
+      )}
+      {currentReminder && (
+        <WaterReminderDialog
+          isOpen={isDialogOpen}
+          containerSize={currentReminder.containerSize}
+        />
       )}
     </div>
   )
