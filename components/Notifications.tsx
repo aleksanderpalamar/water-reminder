@@ -67,7 +67,7 @@ export default function Notifications({ userId }: { userId: string }) {
     audio.play().catch((error) => console.error('Error playing audio:', error))
 
     // Speak the message
-    const message = "Beba água é importante se hidratar."
+    const message = "Beba água é importante se hidratar!"
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(message)
       speechSynthesis.speak(utterance)

@@ -1,50 +1,85 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Button } from "@/components/ui/button"
+import { PlusCircle } from 'lucide-react'
+
+interface Reminder {
+  id: string
+  containerSize: number
+  reminderTime: string
+}
 
 const DAILY_GOAL = 3700 // ml
 
 export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   const [waterIntake, setWaterIntake] = useState(0)
+  const [reminders, setReminders] = useState<Reminder[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchWaterIntake = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`/api/water-intake?userId=${userId}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch water intake')
+        const [intakeResponse, remindersResponse] = await Promise.all([
+          fetch(`/api/water-intake?userId=${userId}`),
+          fetch(`/api/reminders?userId=${userId}`)
+        ])
+
+        if (!intakeResponse.ok || !remindersResponse.ok) {
+          throw new Error('Failed to fetch data')
         }
-        const data = await response.json()
-        setWaterIntake(data.waterIntake || 0) // Ensure we always have a number
+
+        const intakeData = await intakeResponse.json()
+        const remindersData = await remindersResponse.json()
+
+        setWaterIntake(intakeData.waterIntake)
+        setReminders(remindersData.reminders)
         setLoading(false)
       } catch (err) {
-        console.error('Error fetching water intake:', err)
-        setError('Failed to load water intake. Please try again later.')
+        console.error('Error fetching data:', err)
+        setError('Failed to load data. Please try again later.')
         setLoading(false)
       }
     }
 
-    fetchWaterIntake()
-    // Set up an interval to fetch water intake every minute (for testing purposes)
-    const intervalId = setInterval(fetchWaterIntake, 60 * 1000)
-
-    return () => clearInterval(intervalId)
+    fetchData()
   }, [userId])
 
+  const addWaterIntake = async (amount: number) => {
+    try {
+      const response = await fetch('/api/water-intake', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, amount }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update water intake')
+      }
+
+      const data = await response.json()
+      setWaterIntake(data.waterIntake)
+    } catch (err) {
+      console.error('Error updating water intake:', err)
+      setError('Failed to update water intake. Please try again.')
+    }
+  }
+
   if (loading) {
-    return <div className="bg-white p-6 rounded-lg shadow-md mb-8">Loading water intake...</div>
+    return <div className="bg-white p-6 rounded-lg shadow-md">Loading water intake...</div>
   }
 
   if (error) {
-    return <div className="bg-white p-6 rounded-lg shadow-md mb-8 text-red-500">{error}</div>
+    return <div className="bg-white p-6 rounded-lg shadow-md text-red-500">{error}</div>
   }
 
   const percentage = Math.min((waterIntake / DAILY_GOAL) * 100, 100)
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8 overflow-hidden">
+    <div className="bg-white p-6 rounded-lg shadow-md mb-8">
       <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Today&apos;s Water Intake</h2>
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">
@@ -54,7 +89,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
             </span>
           </div>
           <div className="text-right">
-            <span className="text-xs font-semibold inline-block text-sky-500">
+            <span className="text-xs font-semibold inline-block text-[#5DCCFC]">
               {percentage.toFixed(1)}%
             </span>
           </div>
@@ -66,6 +101,23 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
           ></div>
         </div>
       </div>
+      {reminders.length > 0 && (
+        <div className="mt-4">
+          <div className="flex flex-wrap gap-2">
+            {reminders.map((reminder) => (
+              <Button
+                key={reminder.id}
+                onClick={() => addWaterIntake(reminder.containerSize)}
+                className="flex items-center space-x-1 text-[#5DCCFC] hover:text-sky-400 transition-colors"
+                variant="ghost"
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span>{reminder.containerSize} ml</span>
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
