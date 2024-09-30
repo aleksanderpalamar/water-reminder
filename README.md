@@ -1,6 +1,8 @@
 
 # Water Reminder
 
+![Project Screenshot](/.github/images/screen.png)
+
 ## About the Project
 
 Water Reminder is a web application designed to help users track and maintain their daily water intake. It provides a user-friendly interface for setting reminders, logging water consumption, and visualizing progress towards daily hydration goals.
@@ -22,7 +24,8 @@ This project is built using modern web technologies and best practices:
 - **Tailwind CSS**: For responsive and customizable styling
 - **Clerk**: For authentication and user management
 - **Prisma**: As the ORM for database operations
-- **SQLite**: As the database for storing user data and water intake records
+- **SQLite**: As the database for storing user data and water intake records (`development mode`)
+- **PostgreSQL**: As the database for storing user data and water intake records (`production ready`)
 
 ## Development Complexity and Challenges
 
