@@ -70,7 +70,7 @@ export default function Notifications({ userId }: { userId: string }) {
     audio.play().catch((error) => console.error('Error playing audio:', error))
 
     // Speak the message
-    const message = "Beba água se hidratar é muito importante para saúde!"
+    const message = "Beba água, se hidratar é muito importante para saúde!"
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(message)
       speechSynthesis.speak(utterance)

@@ -9,8 +9,11 @@ const poppinsFont = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Water Reminder App",
-  description: "Acompanhe sua ingestão de água, pelo aplicativo Water Reminder",
+  title: 'Water Reminder',
+  description: 'An app to remind you to drink water regularly',
+  manifest: '/manifest.json',
+  themeColor: '#5DCCFC',
+  viewport: 'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
 };
 
 export default function RootLayout({
