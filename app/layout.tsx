@@ -24,7 +24,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="pt-br">
-        <body className={`${poppinsFont.className} antialiased bg-[#F5F5F5]`}>          
+        <head>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+          <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        </head>
+        <body className={`${poppinsFont.className} antialiased bg-[#F5F5F5]`}>
           {children}
         </body>
       </html>
