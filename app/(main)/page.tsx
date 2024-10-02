@@ -7,14 +7,19 @@ import Notifications from "@/components/Notifications";
 import HourlyNotifications from "@/components/HourlyNotifications";
 import { Header } from "@/components/ui/header";
 import WaterCupsDisplay from "@/components/WaterCupsDisplay";
+import { getReminders } from "@/lib/reminders";
 
 
-export default function Home() {
+export default async function Home() {
   const { userId } = auth()
 
   if (!userId) {
     redirect('/sign-in')
   }
+
+  const reminders = await getReminders(userId)
+  const hasReminders = reminders.length > 0
+  
   return (
     <div className="max-w-6xl mx-auto min-h-screen">
       <Header />
@@ -24,8 +29,11 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="grid grid-cols-1 gap-4">
                 <WaterIntakeDisplay userId={userId} />
-                <WaterCupsDisplay userId={userId} />
-                <AddReminderForm userId={userId} />
+                {hasReminders ? (
+                  <WaterCupsDisplay userId={userId} />
+                ) : (
+                  <AddReminderForm userId={userId} />
+                )}
               </div>
               <div>
                 <Notifications userId={userId} />
