@@ -6,6 +6,7 @@ import AddReminderForm from "@/components/AddReminderForm";
 import Notifications from "@/components/Notifications";
 import HourlyNotifications from "@/components/HourlyNotifications";
 import { Header } from "@/components/ui/header";
+import WaterCupsDisplay from "@/components/WaterCupsDisplay";
 
 
 export default function Home() {
@@ -21,8 +22,9 @@ export default function Home() {
         <div className="w-full h-full">
           <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
+              <div className="grid grid-cols-1 gap-4">
                 <WaterIntakeDisplay userId={userId} />
+                <WaterCupsDisplay userId={userId} />
                 <AddReminderForm userId={userId} />
               </div>
               <div>
