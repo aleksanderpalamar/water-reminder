@@ -15,7 +15,7 @@ export default async function HistoryPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <header className="flex w-full items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+      <header className="flex w-full items-center justify-between p-4 border-b border-zinc-900">
         <Logo />
         <Link href="/" className="text-[#5DCCFC] hover:text-sky-400 transition-colors text-sm font-medium mb-4 block">
           <ArrowLeft className="h-6 w-6 inline mr-2" />

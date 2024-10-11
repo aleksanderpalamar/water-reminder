@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { WaterReminderDialog } from './WaterReminderDialog'
 import Image from 'next/image'
+import { Loader2 } from 'lucide-react'
+import { Skeleton } from './ui/skeleton'
 
 interface Reminder {
   id: string
@@ -45,7 +47,7 @@ export default function Notifications({ userId }: { userId: string }) {
 
       reminders.forEach((reminder) => {
         const [reminderHour, reminderMinute] = reminder.reminderTime.split(':').map(Number)
-        
+
         if (currentHour > reminderHour || (currentHour === reminderHour && currentMinute >= reminderMinute)) {
           const hoursSinceReminder = (currentHour - reminderHour + 24) % 24
           const minutesSinceReminder = currentMinute - reminderMinute
@@ -82,15 +84,21 @@ export default function Notifications({ userId }: { userId: string }) {
   }
 
   if (loading) {
-    return <div>Loading reminders...</div>
+    return (
+      <div className="flex flex-col space-y-3">
+        <Skeleton className="h-[125px] w-full rounded-xl bg-zinc-800 flex items-center justify-center">
+          <Loader2 className="w-6 h-6 mx-auto animate-spin" />
+        </Skeleton>
+      </div>
+    )
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>
+    return <div className="text-rose-500 bg-rose-100 p-6 rounded-lg shadow-md">{error}</div>
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-zinc-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Reminders</h2>
       {reminders.length === 0 ? (
         <p>No reminders set. Add a reminder to get started!</p>
@@ -98,7 +106,7 @@ export default function Notifications({ userId }: { userId: string }) {
         <ul className="space-y-4">
           {reminders.map((reminder) => (
             <li key={reminder.id} className="flex items-center space-x-2">
-              <Image 
+              <Image
                 src="/assets/Bottle-of-water.svg"
                 alt="Bottle of water"
                 width={2000}

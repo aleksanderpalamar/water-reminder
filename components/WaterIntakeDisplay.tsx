@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { PlusCircle } from 'lucide-react'
+import { Loader2, PlusCircle } from 'lucide-react'
+import { Skeleton } from './ui/skeleton'
 
 interface Reminder {
   id: string
@@ -69,7 +70,13 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   }
 
   if (loading) {
-    return <div className="bg-white p-6 rounded-lg shadow-md">Loading water intake...</div>
+    return (
+      <div className="flex flex-col space-y-3">
+        <Skeleton className="h-[125px] w-full rounded-xl bg-zinc-800 flex items-center justify-center">
+          <Loader2 className="w-6 h-6 mx-auto animate-spin" />
+        </Skeleton>
+      </div>
+    )
   }
 
   if (error) {
@@ -79,7 +86,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   const percentage = Math.min((waterIntake / DAILY_GOAL) * 100, 100)
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+    <div className="bg-zinc-800 p-6 rounded-lg shadow-md mb-8">
       <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Today&apos;s Water Intake</h2>
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">

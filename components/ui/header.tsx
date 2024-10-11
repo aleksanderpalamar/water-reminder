@@ -5,11 +5,11 @@ import { Logo } from "./logo"
 
 export const Header = () => {
   return (
-    <header className="flex w-full items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+    <header className="flex w-full items-center justify-between p-4 border-b border-zinc-900">
       <Logo />
-      <Link href="/history" className="text-[#5DCCFC] hover:text-sky-400 transition-colors text-sm font-medium mb-4 block">
+      <Link href="/history" className="text-[#5DCCFC] hover:text-sky-400 transition-colors text-sm font-medium text-wrap">
         <FileText className="h-6 w-6 inline mr-2" />
-        View Water Intake History
+        View History
       </Link>
       <SignedOut>
         <SignInButton />

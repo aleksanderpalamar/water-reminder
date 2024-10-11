@@ -8,13 +8,17 @@ export const Logo = () => {
         alt="Logo"
         width={2000}
         height={2000}
-        className="h-24 w-24 overflow-hidden object-cover"
+        className="h-24 w-24 overflow-hidden object-cover shrink-0"
         priority
         quality={100}   
       />
       <div className="space-y-1 flex flex-col">
-        <h1 className="text-3xl font-bold text-[#5DCCFC]">Water Reminder</h1>
-        <p className="text-sm text-gray-500">Acompanhe sua ingestão de água.</p>
+        <h1 className="md:text-3xl text-2xl hidden sm:block font-bold text-[#5DCCFC]">
+          Water Reminder
+        </h1>
+        <p className="md:text-lg text-sm hidden sm:block text-gray-500 dark:text-gray-400">
+          Acompanhe sua ingestão de água.
+        </p>
       </div>
     </div>
   )

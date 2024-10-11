@@ -29,7 +29,7 @@ export default function RootLayout({
           <link rel="icon" href="/icon.svg" type="image/svg+xml" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         </head>
-        <body className={`${poppinsFont.className} antialiased bg-[#F5F5F5]`}>
+        <body className={`${poppinsFont.className} antialiased bg-zinc-950 text-zinc-50`}>
           {children}
         </body>
       </html>

@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Skeleton } from './ui/skeleton'
+import { Loader2 } from 'lucide-react'
 
 interface WaterIntake {
   date: string
@@ -35,15 +37,21 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
   }, [userId])
 
   if (loading) {
-    return <div className="bg-white p-6 rounded-lg shadow-md">Loading water intake history...</div>
+    return (
+      <div className="flex flex-col space-y-3">
+        <Skeleton className="h-[125px] w-full rounded-xl bg-zinc-800 flex items-center justify-center">
+          <Loader2 className="w-6 h-6 mx-auto animate-spin" />
+        </Skeleton>
+      </div>
+    )
   }
 
   if (error) {
-    return <div className="bg-white p-6 rounded-lg shadow-md text-red-500">{error}</div>
+    return <div className="bg-rose-100 p-6 rounded-lg shadow-md text-red-500">{error}</div>
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-zinc-800 p-6 rounded-lg shadow-md">
       {history.length === 0 ? (
         <p>No history available.</p>
       ) : (
@@ -57,7 +65,7 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
               timeZone: 'UTC'
             })
             return (
-              <li key={entry.date} className="border-b pb-4">
+              <li key={entry.date} className="border-b pb-4 border-zinc-700 last:border-0">
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold text-sky-400 antialiased">{formattedDate}</span>
                   <span className="text-[#5DCCFC]">{entry.amount} ml / {DAILY_GOAL} ml</span>

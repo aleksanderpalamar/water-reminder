@@ -51,7 +51,7 @@ export default function WaterCupsDisplay({ userId }: WaterCupsDisplayProps) {
   const numberOfCups = Math.ceil(DAILY_GOAL / containerSize)
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mt-8">
+    <div className="bg-zinc-800 p-6 rounded-lg shadow-md mt-8">
       <div className="flex items-center space-x-2 mb-4">
         <Image
           src="/assets/Cups-of-water.svg"
@@ -84,7 +84,7 @@ export default function WaterCupsDisplay({ userId }: WaterCupsDisplayProps) {
           </div>
         ))}
       </div>
-      <p className="mt-4 text-sm text-gray-600">
+      <p className="mt-4 text-sm text-zinc-50">
         Beba {numberOfCups} copos de {containerSize}ml para atingir sua meta diária de {DAILY_GOAL}ml.
       </p>
     </div>
