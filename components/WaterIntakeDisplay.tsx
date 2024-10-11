@@ -115,12 +115,13 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
               <Button
                 key={reminder.id}
                 onClick={() => addWaterIntake(reminder.containerSize)}
-                className="flex items-center space-x-1 text-[#5DCCFC] hover:text-sky-400 transition-colors"
+                className="flex items-center space-x-1 text-[#5DCCFC] hover:bg-sky-400/10 hover:text-sky-50 transition-colors"
                 variant="ghost"
               >
                 <PlusCircle className="w-4 h-4" />
                 <span>{reminder.containerSize} ml</span>
               </Button>
+              
             ))}
           </div>
         </div>

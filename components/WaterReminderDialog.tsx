@@ -20,7 +20,7 @@ export function WaterReminderDialog({ isOpen, containerSize }: WaterReminderDial
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent className="bg-zinc-800 p-6 rounded-lg shadow-md border-none">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-center space-x-2">
             <Image
@@ -34,7 +34,7 @@ export function WaterReminderDialog({ isOpen, containerSize }: WaterReminderDial
             />
             <span className="text-[#5DCCFC] font-bold text-lg">Water Reminder</span>
           </DialogTitle>
-          <DialogDescription className="text-center text-sm text-gray-500 dark:text-gray-400">
+          <DialogDescription className="text-center text-sm text-zinc-50">
             Beba água e se mantenha hidratado, para uma boa saúde!
           </DialogDescription>
         </DialogHeader>
