@@ -71,7 +71,7 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
                   <span className="text-[#5DCCFC]">{entry.amount} ml / {DAILY_GOAL} ml</span>
                 </div>
                 <div className="relative pt-1">
-                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#E2E8F0]">
+                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-sky-400/10">
                     <div
                       style={{ width: `${Math.min((entry.amount / DAILY_GOAL) * 100, 100)}%` }}
                       className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#5DCCFC]"

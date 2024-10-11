@@ -70,7 +70,7 @@ export default function WaterCupsDisplay({ userId }: WaterCupsDisplayProps) {
         {Array.from({ length: numberOfCups }).map((_, index) => (
           <div
             key={index}
-            className="w-8 h-8 bg-[#E2E8F0] p-1 rounded-full flex items-center justify-center overflow-hidden"
+            className="w-8 h-8 bg-sky-200/10 p-1 rounded-full flex items-center justify-center overflow-hidden"
           >
             <Image
               src="/assets/Cups-of-water.svg"

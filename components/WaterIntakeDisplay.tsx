@@ -91,7 +91,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">
           <div>
-            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#5DCCFC] bg-[#E2E8F0]">
+            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#5DCCFC] bg-sky-400/10">
               {waterIntake} ml / {DAILY_GOAL} ml
             </span>
           </div>
@@ -101,7 +101,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
             </span>
           </div>
         </div>
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-[#E2E8F0]">
+        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-sky-400/10">
           <div
             style={{ width: `${percentage}%` }}
             className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#5DCCFC]"
