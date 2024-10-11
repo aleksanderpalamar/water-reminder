@@ -9,7 +9,6 @@ import { Header } from "@/components/ui/header";
 import WaterCupsDisplay from "@/components/WaterCupsDisplay";
 import { getReminders } from "@/lib/reminders";
 
-
 export default async function Home() {
   const { userId } = auth()
 
@@ -19,7 +18,7 @@ export default async function Home() {
 
   const reminders = await getReminders(userId)
   const hasReminders = reminders.length > 0
-  
+
   return (
     <div className="max-w-6xl mx-auto min-h-screen">
       <Header />

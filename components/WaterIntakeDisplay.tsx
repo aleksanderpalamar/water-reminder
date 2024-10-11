@@ -4,12 +4,8 @@ import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Loader2, PlusCircle } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
-
-interface Reminder {
-  id: string
-  containerSize: number
-  reminderTime: string
-}
+import { Reminder } from '@/services/WaterIntakeService'
+import { useWaterIntakeService } from '@/contexts/WaterIntakeContext'
 
 const DAILY_GOAL = 3700 // ml
 
@@ -19,53 +15,35 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const waterIntakeService = useWaterIntakeService();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [intakeResponse, remindersResponse] = await Promise.all([
-          fetch(`/api/water-intake?userId=${userId}`),
-          fetch(`/api/reminders?userId=${userId}`)
-        ])
+        const [intakeData, remindersData] = await Promise.all([
+          waterIntakeService.getWaterIntake(userId),
+          waterIntakeService.getReminders(userId),
+        ]);
 
-        if (!intakeResponse.ok || !remindersResponse.ok) {
-          throw new Error('Failed to fetch data')
-        }
-
-        const intakeData = await intakeResponse.json()
-        const remindersData = await remindersResponse.json()
-
-        setWaterIntake(intakeData.waterIntake)
-        setReminders(remindersData.reminders)
-        setLoading(false)
+        setWaterIntake(intakeData.waterIntake);
+        setReminders(remindersData.reminders);
+        setLoading(false);
       } catch (err) {
-        console.error('Error fetching data:', err)
-        setError('Failed to load data. Please try again later.')
-        setLoading(false)
+        console.error('Error fetching data:', err);
+        setError('Failed to fetch data. Please try again.');
+        setLoading(false);        
       }
     }
 
     fetchData()
-  }, [userId])
+  }, [userId, waterIntakeService]);
 
   const addWaterIntake = async (amount: number) => {
     try {
-      const response = await fetch('/api/water-intake', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, amount }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to update water intake')
-      }
-
-      const data = await response.json()
-      setWaterIntake(data.waterIntake)
+      const data = await waterIntakeService.addWaterIntake(userId, amount);
+      setWaterIntake(data.waterIntake);
     } catch (err) {
-      console.error('Error updating water intake:', err)
-      setError('Failed to update water intake. Please try again.')
+      console.error('Error adding water intake:', err);      
     }
   }
 
@@ -80,7 +58,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   }
 
   if (error) {
-    return <div className="bg-white p-6 rounded-lg shadow-md text-red-500">{error}</div>
+    return <div className="bg-rose-100 p-6 rounded-lg shadow-md text-rose-500">{error}</div>
   }
 
   const percentage = Math.min((waterIntake / DAILY_GOAL) * 100, 100)
