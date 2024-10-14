@@ -5,7 +5,7 @@ import { WaterReminderDialog } from './WaterReminderDialog'
 import Image from 'next/image'
 import { Loader2 } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
-import { useServices } from '@/contexts/WaterIntakeContext'
+import { useServices } from '@/hooks/use-services'
 
 interface Reminder {
   id: string

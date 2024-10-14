@@ -1,6 +1,6 @@
 'use client'
 
-import { useServices } from '@/contexts/WaterIntakeContext'
+import { useServices } from '@/hooks/use-services';
 import { useEffect } from 'react'
 
 export default function HourlyNotifications({ userId }: { userId: string }) {

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2, PlusCircle } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
 import { Reminder } from '@/services/WaterIntakeService'
-import { useServices } from '@/contexts/WaterIntakeContext'
+import { useServices } from '@/hooks/use-services'
 
 const DAILY_GOAL = 3700 // ml
 

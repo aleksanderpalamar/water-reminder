@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import Image from 'next/image'
-import { useServices } from '@/contexts/WaterIntakeContext'
+import { useServices } from '@/hooks/use-services'
+
 
 export default function AddReminderForm({ userId }: { userId: string }) {
   const [containerSize, setContainerSize] = useState('')

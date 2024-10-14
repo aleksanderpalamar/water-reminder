@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Skeleton } from './ui/skeleton'
 import { Loader2 } from 'lucide-react'
+import { useServices } from '@/hooks/use-services'
 
 interface WaterIntake {
   date: string
@@ -16,15 +17,13 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const { waterIntakeHistoryService } = useServices()
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await fetch(`/api/water-intake/history?userId=${userId}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch water intake history')
-        }
-        const data = await response.json()
-        setHistory(data.history)
+        const data = await waterIntakeHistoryService.getWaterIntakeHistory(userId)
+        setHistory(data)
         setLoading(false)
       } catch (err) {
         console.error('Error fetching water intake history:', err)
@@ -34,7 +33,7 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
     }
 
     fetchHistory()
-  }, [userId])
+  }, [userId, waterIntakeHistoryService])
 
   if (loading) {
     return (
@@ -47,11 +46,11 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
   }
 
   if (error) {
-    return <div className="bg-rose-100 p-6 rounded-lg shadow-md text-red-500">{error}</div>
+    return <div className="bg-rose-100/10 p-6 rounded-lg shadow-md text-rose-500">{error}</div>
   }
 
   return (
-    <div className="bg-zinc-800 p-6 rounded-lg shadow-md">
+    <div className="bg-zinc-800 p-6 rounded-xl shadow-md">
       {history.length === 0 ? (
         <p>No history available.</p>
       ) : (
