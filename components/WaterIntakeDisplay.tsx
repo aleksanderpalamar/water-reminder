@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2, PlusCircle } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
 import { Reminder } from '@/services/WaterIntakeService'
-import { useWaterIntakeService } from '@/contexts/WaterIntakeContext'
+import { useServices } from '@/contexts/WaterIntakeContext'
 
 const DAILY_GOAL = 3700 // ml
 
@@ -15,7 +15,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const waterIntakeService = useWaterIntakeService();
+  const { waterIntakeService } = useServices();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +58,7 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
   }
 
   if (error) {
-    return <div className="bg-rose-100 p-6 rounded-lg shadow-md text-rose-500">{error}</div>
+    return <div className="flex flex-col items-center justify-center bg-rose-100/10 p-6 rounded-lg shadow-md text-rose-500">{error}</div>
   }
 
   const percentage = Math.min((waterIntake / DAILY_GOAL) * 100, 100)
@@ -99,7 +99,6 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
                 <PlusCircle className="w-4 h-4" />
                 <span>{reminder.containerSize} ml</span>
               </Button>
-              
             ))}
           </div>
         </div>

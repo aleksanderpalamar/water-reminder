@@ -1,25 +1,32 @@
 "use client";
 
+import { HttpReminderService } from "@/services/HttpReminderService";
 import { HttpWaterIntakeService } from "@/services/HttpWaterIntakeService";
-import { WaterIntakeService } from "@/services/WaterIntakeService";
+import { ReminderService, WaterIntakeService } from "@/services/WaterIntakeService";
 import { createContext, useContext } from "react";
 
-const WaterIntakeContext = createContext<WaterIntakeService | null>(null);
+interface ServiceContext {
+  waterIntakeService: WaterIntakeService
+  reminderService: ReminderService
+}
 
-export const WaterIntakeProvider = ({ children }: { children: React.ReactNode }) => {
+const ServiceContext = createContext<ServiceContext | null>(null);
+
+export const ServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const waterIntakeService = new HttpWaterIntakeService();
+  const reminderService = new HttpReminderService();
 
   return (
-    <WaterIntakeContext.Provider value={waterIntakeService}>
+    <ServiceContext.Provider value={{ waterIntakeService, reminderService }}>
       {children}
-    </WaterIntakeContext.Provider>
+    </ServiceContext.Provider>
   )
 }
 
-export const useWaterIntakeService = () => {
-  const context = useContext(WaterIntakeContext);
+export const useServices = () => {
+  const context = useContext(ServiceContext);
   if (!context) {
-    throw new Error('useWaterIntakeService must be used within a WaterIntakeProvider');
+    throw new Error('useWaterIntakeService must be used within a ServiceProvider');
   }
   return context;
 };

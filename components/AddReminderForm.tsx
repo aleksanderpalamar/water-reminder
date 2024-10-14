@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import Image from 'next/image'
+import { useServices } from '@/contexts/WaterIntakeContext'
 
 export default function AddReminderForm({ userId }: { userId: string }) {
   const [containerSize, setContainerSize] = useState('')
@@ -13,44 +14,16 @@ export default function AddReminderForm({ userId }: { userId: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
+  const { reminderService, waterIntakeService } = useServices()
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     setIsSubmitting(true)
 
     try {
-      // Create reminder
-      const reminderResponse = await fetch('/api/reminders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          containerSize: parseInt(containerSize),
-          reminderTime,
-        }),
-      })
-
-      if (!reminderResponse.ok) {
-        throw new Error('Failed to add reminder')
-      }
-
-      // Add water intake
-      const waterIntakeResponse = await fetch('/api/water-intake', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          amount: parseInt(containerSize),
-        }),
-      })
-
-      if (!waterIntakeResponse.ok) {
-        throw new Error('Failed to update water intake')
-      }
+      await reminderService.addReminder(userId, parseInt(containerSize), reminderTime)
+      await waterIntakeService.addWaterIntake(userId, parseInt(containerSize))
 
       setContainerSize('')
       setReminderTime('')
@@ -64,7 +37,7 @@ export default function AddReminderForm({ userId }: { userId: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="bg-zinc-800 p-6 rounded-lg shadow-md">
       <div className="flex items-center space-x-2">
         <Image 
           src="/assets/Bottle-of-water.svg"
@@ -79,7 +52,8 @@ export default function AddReminderForm({ userId }: { userId: string }) {
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="mb-4">
-        <label htmlFor="containerSize" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="containerSize" 
+        className="block text-sm font-medium text-zinc-50">
           Container Size (ml)
         </label>
         <Input
@@ -88,13 +62,14 @@ export default function AddReminderForm({ userId }: { userId: string }) {
           placeholder='e.g. "1000"'
           value={containerSize}
           onChange={(e) => setContainerSize(e.target.value)}
-          className="mt-1 block w-full rounded-full border-gray-300 shadow-sm 
-          focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-full border-zinc-700 shadow-sm 
+          focus:border-sky-400 focus:ring focus:ring-sky-200 focus:ring-opacity-50"
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="reminderTime" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="reminderTime" 
+        className="block text-sm font-medium text-zinc-50">
           Reminder Time
         </label>
         <Input
@@ -102,16 +77,15 @@ export default function AddReminderForm({ userId }: { userId: string }) {
           id="reminderTime"
           value={reminderTime}
           onChange={(e) => setReminderTime(e.target.value)}
-          className="mt-1 block w-full rounded-full border-gray-300 shadow-sm focus:border-blue-300 
-          focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-full border-zinc-700 shadow-sm focus:border-sky-400 
+          focus:ring focus:ring-sky-200 focus:ring-opacity-50"
           required
         />
       </div>
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-[#5DCCFC] text-white py-2 px-4 rounded-full hover:bg-sky-400
-        focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-50 disabled:opacity-50"
+        className="w-full bg-[#5DCCFC] text-zinc-800 py-2 px-4 rounded-full hover:bg-sky-400"
       >
         {isSubmitting ? 'Adding...' : 'Add Reminder'}
       </Button>

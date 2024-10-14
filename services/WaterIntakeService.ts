@@ -7,6 +7,11 @@ export interface WaterIntakeService {
   ): Promise<{ waterIntake: number }>;
 }
 
+export interface ReminderService {
+  getReminders(userId: string): Promise<Reminder[]>;
+  addReminder(userId: string, containerSize: number, reminderTime: string): Promise<void>;
+}
+
 export interface Reminder {
   id: string;
   containerSize: number;

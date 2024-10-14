@@ -5,6 +5,7 @@ import { WaterReminderDialog } from './WaterReminderDialog'
 import Image from 'next/image'
 import { Loader2 } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
+import { useServices } from '@/contexts/WaterIntakeContext'
 
 interface Reminder {
   id: string
@@ -19,16 +20,14 @@ export default function Notifications({ userId }: { userId: string }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [currentReminder, setCurrentReminder] = useState<Reminder | null>(null)
 
+  const { reminderService } = useServices()
+
   useEffect(() => {
     const fetchReminders = async () => {
       try {
-        const response = await fetch(`/api/reminders?userId=${userId}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch reminders')
-        }
-        const data = await response.json()
-        setReminders(data.reminders)
-        setLoading(false)
+        const fetchedReminders = await reminderService.getReminders(userId);
+        setReminders(fetchedReminders);
+        setLoading(false);
       } catch (err) {
         console.error('Error fetching reminders:', err)
         setError('Failed to load reminders. Please try again later.')
@@ -37,7 +36,7 @@ export default function Notifications({ userId }: { userId: string }) {
     }
 
     fetchReminders()
-  }, [userId])
+  }, [userId, reminderService])
 
   useEffect(() => {
     const checkReminders = () => {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { WaterIntakeProvider } from "@/contexts/WaterIntakeContext";
+import { ServiceProvider } from "@/contexts/WaterIntakeContext";
 
 const poppinsFont = Poppins({
   subsets: ["latin"],
@@ -31,9 +31,9 @@ export default function RootLayout({
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         </head>
         <body className={`${poppinsFont.className} antialiased bg-zinc-950 text-zinc-50`}>
-          <WaterIntakeProvider>
+          <ServiceProvider>
             {children}
-          </WaterIntakeProvider>
+          </ServiceProvider>
         </body>
       </html>
     </ClerkProvider>
