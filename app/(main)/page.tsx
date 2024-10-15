@@ -16,8 +16,9 @@ export default async function Home() {
     redirect('/sign-in')
   }
 
-  const reminders = await getReminders(userId)
-  const hasReminders = reminders.length > 0
+  const today = new Date().toISOString().split('T')[0]
+  const reminders = await getReminders(userId, today)
+  const hasRemindersToday = reminders.length > 0
 
   return (
     <div className="max-w-6xl mx-auto min-h-screen">
@@ -28,7 +29,7 @@ export default async function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="grid grid-cols-1 gap-4">
                 <WaterIntakeDisplay userId={userId} />
-                {hasReminders ? (
+                {hasRemindersToday ? (
                   <WaterCupsDisplay userId={userId} />
                 ) : (
                   <AddReminderForm userId={userId} />
