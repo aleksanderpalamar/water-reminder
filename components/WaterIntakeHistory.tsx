@@ -52,7 +52,7 @@ export default function WaterIntakeHistory({ userId }: { userId: string }) {
   return (
     <div className="bg-zinc-800 p-6 rounded-xl shadow-md">
       {history.length === 0 ? (
-        <p>No history available.</p>
+        <p>Você ainda não tem nenhum registro de ingestão de água.</p>
       ) : (
         <ul className="space-y-4">
           {history.map((entry) => {

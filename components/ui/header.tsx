@@ -9,7 +9,7 @@ export const Header = () => {
       <Logo />
       <Link href="/history" className="text-[#5DCCFC] hover:text-sky-400 transition-colors text-sm font-medium text-wrap">
         <FileText className="h-6 w-6 inline mr-2" />
-        View History
+        Histórico
       </Link>
       <SignedOut>
         <SignInButton />

@@ -49,13 +49,15 @@ export default function AddReminderForm({ userId }: { userId: string }) {
           priority
           quality={100}
         />
-        <p className="text-2xl font-semibold text-[#5DCCFC] mb-4">Add Water Reminder</p>
+        <p className="text-2xl font-semibold text-[#5DCCFC] mb-4">
+          Adicione um novo lembrete
+        </p>
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="mb-4">
         <label htmlFor="containerSize" 
         className="block text-sm font-medium text-zinc-50">
-          Container Size (ml)
+          Tamanho do recipiente (ml)
         </label>
         <Input
           type="number"
@@ -71,7 +73,7 @@ export default function AddReminderForm({ userId }: { userId: string }) {
       <div className="mb-4">
         <label htmlFor="reminderTime" 
         className="block text-sm font-medium text-zinc-50">
-          Reminder Time
+          Hora do lembrete
         </label>
         <Input
           type="time"
@@ -88,7 +90,7 @@ export default function AddReminderForm({ userId }: { userId: string }) {
         disabled={isSubmitting}
         className="w-full bg-[#5DCCFC] text-zinc-800 py-2 px-4 rounded-full hover:bg-sky-400"
       >
-        {isSubmitting ? 'Adding...' : 'Add Reminder'}
+        {isSubmitting ? 'Adicionando...' : 'Adicionar Lembrete'}
       </Button>
     </form>
   )

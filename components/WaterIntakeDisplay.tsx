@@ -65,7 +65,9 @@ export default function WaterIntakeDisplay({ userId }: { userId: string }) {
 
   return (
     <div className="bg-zinc-800 p-6 rounded-lg shadow-md mb-8">
-      <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Today&apos;s Water Intake</h2>
+      <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">
+        Sua ingestão de água de hoje
+      </h2>
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">
           <div>

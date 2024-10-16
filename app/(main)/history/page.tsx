@@ -24,7 +24,7 @@ export default async function HistoryPage() {
       </header>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-[#5DCCFC] mb-8">
-          Water Intake History
+          Seu histórico
         </h1>
         <WaterIntakeHistory userId={userId} />
       </div>

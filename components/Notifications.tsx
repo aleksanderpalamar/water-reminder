@@ -93,14 +93,16 @@ export default function Notifications({ userId }: { userId: string }) {
   }
 
   if (error) {
-    return <div className="text-rose-500 bg-rose-100 p-6 rounded-lg shadow-md">{error}</div>
+    return <div className="text-rose-500 bg-rose-100/10 p-6 rounded-lg shadow-md">{error}</div>
   }
 
   return (
     <div className="bg-zinc-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-[#5DCCFC] mb-4">Reminders</h2>
       {reminders.length === 0 ? (
-        <p>No reminders set. Add a reminder to get started!</p>
+        <p className="text-zinc-400 text-sm text-center flex-wrap">
+          Você não tem nenhum lembrete definido. Adicione um lembrete para começar!
+        </p>
       ) : (
         <ul className="space-y-4">
           {reminders.map((reminder) => (
@@ -115,7 +117,7 @@ export default function Notifications({ userId }: { userId: string }) {
                 quality={100}
               />
               <span>
-                {reminder.reminderTime} - Drink {reminder.containerSize}ml of water
+                {reminder.reminderTime} - Beba água a cada hora.
               </span>
             </li>
           ))}
