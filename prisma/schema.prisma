@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  url      = "mongodb+srv://apalamar:Uda3h3nOEkjJGq5@waterreminder.3vrt6.mongodb.net/?retryWrites=true&w=majority&appName=WaterReminder"
 }
 
 model User {
